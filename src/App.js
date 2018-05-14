@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'antd';
 import {inject, observer} from 'mobx-react'
-import RouteMap from './routerMap'
+import Home from './containers/Home'
 import './App.css';
 
 import {getElements} from './services/apis'
@@ -20,7 +20,7 @@ class App extends Component {
     const {name} = this.props.pageStore
     return (
       <div>
-        <RouteMap/>
+        <Home/>
       </div>
     );
   }
