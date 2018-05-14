@@ -264,9 +264,8 @@ module.exports = {
     port: '3000',
     hot: true,
     proxy: {
-      //如果Controller的Requestmapping有多个这里也要对应多个
-      '/element/api/*': {
-        target: "http://localhost:8080", //对应后端端口
+      '*': {
+        target: "https://github.com",
         secure: false,
         changeOrigin: true
       }

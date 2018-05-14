@@ -1,11 +1,12 @@
 import axios from 'axios'
 
-export const getCommitInfo = (api,params) => {
+export const getCommitInfo = (api) => {
   return axios
-  .post(api, {data: params})
+  .get(api)
   .then(resp => resp.data)
   .then(resp => {
     return resp;
+    console.log('resp',resp)
   })
   .catch(error => {
     console.error('请求出错，请重试')

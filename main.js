@@ -3,6 +3,8 @@ const electron = require('electron')
 const app = electron.app
 // 创建原生浏览器窗口的模块
 const BrowserWindow = electron.BrowserWindow
+// net 是 electron node api
+const net = electron.net
 
 const path = require('path')
 const url = require('url')
@@ -23,6 +25,7 @@ function createWindow() {
   //判断是否是开发模式
   if (argv && argv[1] == 'dev') {
     mainWindow.loadURL("http://localhost:3000/")
+    console.log('xxxxxxxxxxxxx')
   } else {
     // window 加载build好的html.
     mainWindow.loadURL(url.format({
@@ -41,12 +44,30 @@ function createWindow() {
       // corresponding element.
       mainWindow = null
     })
+  
+  // devtools
+  mainWindow.openDevTools({mode:'bottom'});
+
 }
 
 // This method will be called when Electron has finished initialization and is
 // ready to create browser windows. Some APIs can only be used after this event
 // occurs.
 app.on('ready', createWindow)
+// app.on('ready', () => {
+//   const request = net.request('https://github.com')
+//   request.on('response', (response) => {
+//     console.log(`STATUS: ${response.statusCode}`)
+//     console.log(`HEADERS: ${JSON.stringify(response.headers)}`)
+//     response.on('data', (chunk) => {
+//       console.log(`BODY: ${chunk}`)
+//     })
+//     response.on('end', () => {
+//       console.log('response请求中没有更多数据。')
+//     })
+//   })
+//   request.end()
+// })
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -63,7 +84,32 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
+
+  const request = net.request('https://github.com')
+  request.on('response', (response) => {
+    console.log(`STATUS: ${response.statusCode}`)
+    console.log(`HEADERS: ${JSON.stringify(response.headers)}`)
+    response.on('data', (chunk) => {
+      console.log(`BODY: ${chunk}`)
+    })
+    response.on('end', () => {
+      console.log('response请求中没有更多数据。')
+    })
+  })
+  request.end()
 })
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
+// 在主进程中.
+const {ipcMain} = require('electron')
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log(arg)  // prints "ping"
+  event.sender.send('asynchronous-reply', 'pong')
+})
+
+ipcMain.on('synchronous-message', (event, arg) => {
+  console.log(arg)  // prints "ping"
+  event.returnValue = 'pong'
+})
