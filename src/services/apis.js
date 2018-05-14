@@ -1,6 +1,14 @@
-// http://localhost:8080/api/element/elements
-import request from './request'
+import axios from 'axios'
 
-export const getElements = () => {
-  return request('/element/api/elements')
+export const getCommitInfo = (api,params) => {
+  return axios
+  .post(api, {data: params})
+  .then(resp => resp.data)
+  .then(resp => {
+    return resp;
+  })
+  .catch(error => {
+    console.error('请求出错，请重试')
+  });
 }
+
