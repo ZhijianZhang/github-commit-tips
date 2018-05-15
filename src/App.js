@@ -5,31 +5,21 @@ import './App.css';
 import {getCommitInfo} from './services/apis'
 // const {ipcRenderer} = require('electron')
 
-console.log(require.resolve('electron'))
+// console.log(require.resolve('electron'))
 class App extends Component {
-
-  constructor() {
-    super(...arguments)
-    //在渲染器进程 (网页) 中。
-    // console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
-    // ipcRenderer.on('asynchronous-reply', (event, arg) => {
-    //   console.log(arg) // prints "pong"
-    // })
-    // ipcRenderer.send('asynchronous-message', 'ping')
-  }
 
   state = {
     commitInfo: ''
   }
 
   async componentDidMount() {
-    // const resp = await getCommitInfo('/ZhijianZhang')
-    // if (resp) {
-    //   console.log('resp', resp)
-    //   this.setState({
-    //     commitInfo: JSON.stringify(resp)
-    //   })
-    // }
+    const resp = await getCommitInfo('/zhijianzhang')
+    if (resp) {
+      console.log('resp', resp)
+      this.setState({
+        commitInfo: JSON.stringify(resp)
+      })
+    }
   }
   render() {
     const {commitInfo} = this.state

@@ -259,15 +259,18 @@ module.exports = {
     hints: false
   },
   // 配置代理
+  // 没用，妈的
   devServer: {
     host: '127.0.0.1',
     port: '3000',
     hot: true,
     proxy: {
-      '*': {
-        target: "https://github.com",
-        secure: false,
-        changeOrigin: true
+      '/api/github': {
+        target: "http://localhost:9999",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api/github':''
+        }
       }
     }
   }
