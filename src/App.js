@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button} from 'antd';
+import {Button,Input} from 'antd';
 import './App.css';
 
 import {getCommitInfo} from './services/apis'
@@ -9,29 +9,73 @@ import {getCommitInfo} from './services/apis'
 class App extends Component {
 
   state = {
-    commitInfo: ''
+    commitInfo: {
+      userIcon: './github.jpg'
+    },
+    inputVisiable: false
   }
 
-  async componentDidMount() {
-    const resp = await getCommitInfo('/zhijianzhang')
-    if (resp) {
-      console.log('resp', resp)
-      this.setState({
-        commitInfo: JSON.stringify(resp)
-      })
+  componentDidMount() {
+    // 本地获取username
+    let username = window.localStorage.getItem('username')
+    console.log('componentDidMount',username)
+    this.setState({
+      inputVisiable: !username
+    })
+    this.updateCommitInfo(username);
+  }
+
+  updateCommitInfo = async (username) => {
+    console.log('componentDidMount',username)
+    if(username) {
+      const resp = await getCommitInfo(`/${username}`)
+      if (resp) {
+        console.log('resp', resp)
+        this.setState({
+          commitInfo: {
+            ...this.state.commitInfo,
+            ...resp
+          }
+        })
+      }
     }
   }
+
+  enterUsername = (e) => {
+    window.localStorage.setItem('username',e.target.value)
+  }
+
+  changeUsername = () => {
+    this.setState({
+      inputVisiable: true
+    })
+    window.localStorage.removeItem('username')
+  }
   render() {
-    const {commitInfo} = this.state
+    const {commitInfo,inputVisiable} = this.state
+
     return (
       <div>
-        <div>input github account</div>
-        <div>commit nums</div>
-        <div>commit color</div>
-        <div>user icon</div>
-        <div>{commitInfo}</div>
-        <Button type="primary">刷新</Button>
-        <Button type="primary">修改账户</Button>
+        {/* {window.localStorage.getItem('username')} */}
+        <div className="userIcon">
+          <a href={commitInfo.gitIndex}  target="_blank">
+            <img src={commitInfo.userIcon} alt={commitInfo.username} />
+          </a>
+        </div>
+        {
+          inputVisiable && <div className="userName">
+            <Input placeholder="username" onChange={this.enterUsername}/>
+          </div>
+        }
+        <div className="commitNums">
+          <span>今日提交: {commitInfo.count || 0} 次</span>
+          <span className="commitFill" style={{backgroundColor: commitInfo.fill}}></span>
+        </div>
+
+        <div className="buttons">
+          <Button type="primary" onClick={() => this.updateCommitInfo()}>刷新</Button>
+          <Button type="primary" onClick={this.changeUsername}>设置</Button>
+        </div>
       </div>
     );
   }

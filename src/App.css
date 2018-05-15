@@ -31,3 +31,41 @@
     transform: rotate(360deg);
   }
 }
+
+.userIcon {
+  width: 100px;
+  height: 100px;
+  margin: 10px auto;
+}
+
+.userIcon img {
+  height: 100%;
+  width: 100%;
+}
+
+.userName {
+  width: 100px;
+  margin: 10px auto;
+}
+
+.commitNums {
+  width: 100%;
+  height: 30px;
+  margin: 10px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.commitFill {
+  width:10px;
+  height:10px;
+  display: inline-block;
+}
+
+.buttons {
+  width: 200px;
+  margin: 5px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

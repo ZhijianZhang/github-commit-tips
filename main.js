@@ -20,7 +20,7 @@ let mainWindow
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 400, height: 400})
 
   //判断是否是开发模式
   if (argv && argv[1] == 'dev') {
@@ -35,7 +35,10 @@ function createWindow() {
     }))
   }
 
-  // Open the DevTools. mainWindow.webContents.openDevTools() Emitted when the
+  // Open the DevTools. 
+  // mainWindow.webContents.openDevTools() 
+
+  // Emitted when the
   // window is closed.
   mainWindow
     .on('closed', function () {
@@ -44,10 +47,6 @@ function createWindow() {
       // corresponding element.
       mainWindow = null
     })
-  
-  // devtools
-  mainWindow.openDevTools({mode:'bottom'});
-
 }
 
 // This method will be called when Electron has finished initialization and is
@@ -84,19 +83,6 @@ app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
-
-  const request = net.request('https://github.com')
-  request.on('response', (response) => {
-    console.log(`STATUS: ${response.statusCode}`)
-    console.log(`HEADERS: ${JSON.stringify(response.headers)}`)
-    response.on('data', (chunk) => {
-      console.log(`BODY: ${chunk}`)
-    })
-    response.on('end', () => {
-      console.log('response请求中没有更多数据。')
-    })
-  })
-  request.end()
 })
 
 // In this file you can include the rest of your app's specific main process
