@@ -5,6 +5,7 @@ import './App.css';
 import {getCommitInfo} from './services/apis'
 // const {ipcRenderer} = require('electron')
 
+console.log(require.resolve('electron'))
 class App extends Component {
 
   constructor() {
@@ -22,13 +23,13 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    const resp = await getCommitInfo('/ZhijianZhang')
-    if (resp) {
-      console.log('resp', resp)
-      this.setState({
-        commitInfo: JSON.stringify(resp)
-      })
-    }
+    // const resp = await getCommitInfo('/ZhijianZhang')
+    // if (resp) {
+    //   console.log('resp', resp)
+    //   this.setState({
+    //     commitInfo: JSON.stringify(resp)
+    //   })
+    // }
   }
   render() {
     const {commitInfo} = this.state

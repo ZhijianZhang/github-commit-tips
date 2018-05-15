@@ -6,7 +6,6 @@ export const getCommitInfo = (api) => {
   .then(resp => resp.data)
   .then(resp => {
     return resp;
-    console.log('resp',resp)
   })
   .catch(error => {
     console.error('请求出错，请重试')
